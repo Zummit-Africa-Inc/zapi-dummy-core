@@ -13,7 +13,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>) {}
+    private readonly categoryRepository: Repository<Category>,
+  ) {}
 
   async createCategory(payload: CreateCategoriesDto): Promise<Category> {
     try {
@@ -26,7 +27,7 @@ export class CategoryService {
           ZapiResponse.BadRequest(
             'Existing Values',
             'A Categorty with this name already exists',
-            '400'
+            '400',
           ),
         );
       }
@@ -38,28 +39,30 @@ export class CategoryService {
       return savedCategory;
     } catch (error) {
       throw new BadRequestException(
-        ZapiResponse.BadRequest(error.name, error.message, error.status,)
+        ZapiResponse.BadRequest(error.name, error.message, error.status),
       );
     }
   }
 
   async getCategory(): Promise<Category[]> {
     try {
-      const allCategories = await this.categoryRepository.find({select:['id', 'name', 'description']})
+      const allCategories = await this.categoryRepository.find({
+        select: ['id', 'name', 'description'],
+      });
       return allCategories;
     } catch (error) {
       throw new BadRequestException(
-        ZapiResponse.BadRequest(error.name, error.message, error.status,),
+        ZapiResponse.BadRequest(error.name, error.message, error.status),
       );
     }
   }
 
   async deleteCategogry(id: string): Promise<string> {
     try {
-      const category = await this.categoryRepository.findOne({where : { id}});
+      const category = await this.categoryRepository.findOne({ where: { id } });
       if (category) {
-         await this.categoryRepository.remove(category);
-         return  `${category.name} category successfully deleted`
+        await this.categoryRepository.remove(category);
+        return `${category.name} category successfully deleted`;
       }
       throw new NotFoundException(
         ZapiResponse.NotFoundRequest(

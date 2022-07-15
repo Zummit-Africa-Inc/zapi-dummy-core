@@ -7,7 +7,8 @@ import {
   ValidationPipe,
   Delete,
   Param,
-  ParseUUIDPipe
+  ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ZapiResponse } from '../common/helpers/response/Response';
 import { Ok } from 'src/common/helpers/response/ResponseType';
@@ -15,7 +16,8 @@ import { CategoryService } from './category.service';
 import { Category } from '../entities/category.entity';
 import { CreateCategoriesDto } from './dto/categories.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-
+import { CategoryIdGuard } from './category-id.guard';
+import { Categories } from 'src/common/decorators/categories.decorator';
 
 @ApiTags('Categories')
 @Controller('categories')
@@ -23,7 +25,7 @@ export class CategoryController {
   constructor(private readonly categoryservice: CategoryService) {}
 
   @Post('create')
-  @ApiOperation({summary:'Creates a new category for an api'})
+  @ApiOperation({ summary: 'Creates a new category for an api' })
   @UsePipes(ValidationPipe)
   async createCategories(
     @Body()
@@ -34,23 +36,29 @@ export class CategoryController {
   }
 
   @Get()
-  @ApiOperation({summary:'fetches all categories present in the Database'})
+  @ApiOperation({ summary: 'fetches all categories present in the Database' })
   async getCategory(): Promise<Ok<Category[]>> {
     const allCategories = await this.categoryservice.getCategory();
-    return ZapiResponse.Ok(allCategories, 'Ok', '200')
+    return ZapiResponse.Ok(allCategories, 'Ok', '200');
   }
 
   @Delete(':id')
-  @ApiOperation({summary:'Deletes a single category with the matched id'})
+  @ApiOperation({ summary: 'Deletes a single category with the matched id' })
   async deleteCategogry(@Param('id', new ParseUUIDPipe()) id: string) {
     const category = await this.categoryservice.deleteCategogry(id);
     return ZapiResponse.Ok(category, 'Ok', '200');
   }
 
   @Get(':id')
-  @ApiOperation({summary:'Fetches a single category with the matched id'})
+  @ApiOperation({ summary: 'Fetches a single category with the matched id' })
   async findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
     const category = await this.categoryservice.findOneById(id);
     return ZapiResponse.Ok(category, 'Ok', '200');
+  }
+
+  @Get('/test/:categoryId')
+  @Categories('category')
+  async createCategoryId() {
+    return 'testing';
   }
 }
