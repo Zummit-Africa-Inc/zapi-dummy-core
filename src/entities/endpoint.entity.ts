@@ -1,6 +1,7 @@
 import { SharedEntity } from '../common/model/sharedEntity';
 import { Column, Entity } from 'typeorm';
 import { HttpMethod } from '../common/enums/httpMethods.enum';
+import { ReqBody } from '../endpoints/interface/endpoint.interface';
 
 @Entity()
 export class Endpoint extends SharedEntity {
@@ -30,6 +31,11 @@ export class Endpoint extends SharedEntity {
   })
   headers: object[];
 
-  @Column('jsonb', { default: {} })
-  requestBody: object;
+  @Column({
+        type: 'jsonb',
+        array: false,
+        default: () => "'[]'",
+        nullable: false,
+    })
+  requestBody: ReqBody[];
 }

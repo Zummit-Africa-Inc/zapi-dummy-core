@@ -26,7 +26,9 @@ export class UpdateEndpointDto extends PartialType(CreateEndpointDto) {
     required: boolean;
   }[];
 
-  @IsObject()
+  @IsArray()
   @ApiPropertyOptional()
-  requestBody: { format: string; body: string };
+  requestBody: [
+    { format: string; body: string }
+  ]
 }

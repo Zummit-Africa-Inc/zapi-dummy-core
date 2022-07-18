@@ -25,7 +25,9 @@ export class CreateEndpointDto {
     required: boolean;
   }[];
 
-  @IsObject()
+  @IsArray()
   @ApiProperty()
-  requestBody: { format: string; body: string };
+  requestBody: [
+    { format: string; body: string }
+  ]
 }
