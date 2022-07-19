@@ -33,9 +33,9 @@ export class Endpoint extends SharedEntity {
 
   @Column({
         type: 'jsonb',
-        array: false,
+        array: true,
         default: () => "'[]'",
-        nullable: false,
+        nullable: true,
     })
   requestBody: ReqBody[];
 }
