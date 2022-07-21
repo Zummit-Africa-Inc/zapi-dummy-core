@@ -16,14 +16,14 @@ export class ContactUsController {
   @ApiOperation({ summary: 'Get all topics' })
   async getAllTopics(): Promise<Ok<TopicResponseDto[]>> {
     const topics = this.ContactUs.getTopics();
-    return ZapiResponse.Ok(topics, 'Ok', '200');
+    return ZapiResponse.Ok(topics, 'All topics', '200');
   }
 
   @Get()
   @ApiOperation({ summary: 'Get all countries' })
   async getAllCountries(): Promise<Ok<CountryResponseDto[]>> {
-    const topics = this.ContactUs.getCountries();
-    return ZapiResponse.Ok(topics, 'Ok', '200');
+    const countries = this.ContactUs.getCountries();
+    return ZapiResponse.Ok(countries, 'All countries', '200');
   }
 
   @Post()
