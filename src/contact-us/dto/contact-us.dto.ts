@@ -10,6 +10,7 @@ export class ContactFormDto {
   @IsNotEmpty()
   @IsString()
   lastName: string;
+  @IsNotEmpty()
   @IsString()
   phoneNo: string;
   @IsEmail()
@@ -36,6 +37,7 @@ export class CreateContactFormDto {
   @IsNotEmpty()
   @IsString()
   lastName: string;
+  @IsNotEmpty()
   @IsString()
   phoneNo: string;
   @IsEmail()
