@@ -13,6 +13,7 @@ import { ProfileModule } from './profile/profile.module';
 import { AppDataSource } from 'ormconfig';
 import { PriceGroup } from './entities/price-group.entity';
 // import { DatabaseModule } from './databaseModule/database.module';
+import { TutorialModule } from './tutorial/tutorial.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PriceGroup } from './entities/price-group.entity';
     ProfileModule,
     PricingModule,
     ApiModule,
+    TutorialModule,
   ],
   controllers: [AppController],
   providers: [AppService],
