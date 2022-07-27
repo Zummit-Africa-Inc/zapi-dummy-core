@@ -6,10 +6,8 @@ import { PricingController } from './pricing.controller';
 import { PricingService } from './pricing.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Pricing, PriceGroup]),
-  ],
+  imports: [TypeOrmModule.forFeature([Pricing, PriceGroup])],
   controllers: [PricingController],
-  providers: [PricingService]
+  providers: [PricingService],
 })
 export class PricingModule {}
