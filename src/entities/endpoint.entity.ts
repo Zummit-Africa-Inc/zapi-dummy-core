@@ -1,7 +1,8 @@
 import { SharedEntity } from '../common/model/sharedEntity';
-import { Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
 import { HttpMethod } from '../common/enums/httpMethods.enum';
 import { ReqBody } from '../endpoints/interface/endpoint.interface';
+const urlEncoode = require('urlencode')
 
 @Entity()
 export class Endpoint extends SharedEntity {
@@ -38,4 +39,12 @@ export class Endpoint extends SharedEntity {
         nullable: false,
     })
   requestBody: ReqBody[];
+  
+  @BeforeInsert()
+  public encodeUrl(){
+    let encodedRoute = urlEncoode(this.route)
+    this.route = encodedRoute
+    return this.route
+  }
+
 }

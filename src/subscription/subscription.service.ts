@@ -16,6 +16,8 @@ import { Repository } from 'typeorm';
 import { createSubscriptionDto } from './dto/create-subscription.dto';
 import { SubscriptionApiCallDto } from './dto/make-request.dto';
 import { HttpService } from '@nestjs/axios';
+const urlEncode = require('urlencode')
+
 
 @Injectable()
 export class SubscriptionService {
@@ -206,11 +208,12 @@ export class SubscriptionService {
 
   async makeSubscriptionRequest(token: string, body: SubscriptionApiCallDto) {
     const { api, profile } = await this.verifySub(token);
+      const encodedRoute = urlEncode(body.route)
     const endpoint = await this.endpointRepository.findOne({
       where: {
         // apiId: api.id,
         method: body.method,
-        route: body.route,
+        route: encodedRoute,
       },
     });
 
@@ -222,7 +225,7 @@ export class SubscriptionService {
 
     const uniqueApiSecurityKey = api.secretKey;
     const base_url = api.base_url;
-    const endRoute = endpoint.route;
+    const endRoute = urlEncode.decode(endpoint.route);
     const endMethod = endpoint.method.toLowerCase();
     const url = base_url + `${endRoute}`;
     const p = this.httpService.axiosRef;
